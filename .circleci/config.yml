@@ -13,6 +13,8 @@ jobs:
             if [ "Automated update" != "$(git show -s --format=%s)" ]; then
               exit 0
             fi
+            ./build.sh
+
             git config --global user.email "server_admin+cw-circleci@chatwork.com"
             git config --global user.name "CircleCI"
             git add . && git commit -m "generate scheme"
