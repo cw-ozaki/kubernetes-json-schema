@@ -42,7 +42,7 @@ jobs:
               -l 'base.ref == `"master"`' \
               -l 'starts_with(head.ref, `"mod-up-"`)' \
               -l 'user.login == `"cw-circleci"`' \
-              -l 'length(statuses[?context == `"ci/circleci: test"` && state == `"success"`]) == `1`'
+              -l 'length(statuses[?context == `"ci/circleci: generate_scheme"` && state == `"success"`]) == `1`'
 
 workflows:
   version: 2
