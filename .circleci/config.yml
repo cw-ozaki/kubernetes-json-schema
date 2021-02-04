@@ -10,7 +10,13 @@ jobs:
       - run:
           name: Generate scheme
           command: |
-            ./build.sh
+            if [ "Automated update" != "$(git show -s --format=%s)" ]; then
+              exit 0
+            fi
+            git config --global user.email "server_admin+cw-circleci@chatwork.com"
+            git config --global user.name "CircleCI"
+            git add . && git commit -m "generate scheme"
+            git push origin ${CIRCLE_BRANCH}
   mod:
     docker:
       - image: variantdev/mod:0.19.0
@@ -23,7 +29,7 @@ jobs:
           command: |
             git config --global user.email "server_admin+cw-circleci@chatwork.com"
             git config --global user.name "CircleCI"
-            mod up --build  --pull-request --base master --branch 'mod-up-' --title "update {{ .kubernetes.version }}" --skip-on-duplicate-pull-request-title
+            mod up --build  --pull-request --base master --branch 'mod-up' --title "update {{ .kubernetes.version }}" --skip-on-duplicate-pull-request-title
   merge:
     docker:
       - image: kinzal/pr:0.2.1
@@ -46,7 +52,8 @@ workflows:
           filters:
             branches:
               only:
-                - /^mod-up-/
+                - /^mod-up-.*$/
+
   update_dependecies:
     jobs:
       - mod
