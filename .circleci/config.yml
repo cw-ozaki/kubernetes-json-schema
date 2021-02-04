@@ -29,7 +29,7 @@ jobs:
           command: |
             git config --global user.email "server_admin+cw-circleci@chatwork.com"
             git config --global user.name "CircleCI"
-            mod up --build  --pull-request --base master --branch 'mod-up' --title "update {{ .kubernetes.version }}" --skip-on-duplicate-pull-request-title
+            mod up --build  --pull-request --base master --branch 'mod-up' --title "generate v{{ .kubernetes.version }}" --skip-on-duplicate-pull-request-title
   merge:
     docker:
       - image: kinzal/pr:0.2.1
